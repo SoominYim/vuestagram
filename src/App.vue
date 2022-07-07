@@ -52,7 +52,7 @@ export default {
         return {
             gramData: gramData,
             moreClick: 0, //state
-            step: 3,
+            step: 0,
             uploadImage: "",
             uploadContent: "",
             imageFilter: "",
