@@ -7,11 +7,9 @@
 
         <!-- 필터선택페이지 -->
         <div v-if="step == 1">
-            <div
-                class="upload-image"
-                :style="`background-image: url(${uploadImage})`"
-                :class="imageFilter"
-            ></div>
+            <div class="upload-image" :class="imageFilter">
+                <img :src="uploadImage" alt="" />
+            </div>
             <div class="filters">
                 <filter-box
                     :uploadImage="uploadImage"
@@ -20,7 +18,7 @@
                     :class="filter"
                     :filter="filter"
                 >
-                    <!-- slot에 이름 안주면 바로바로 쓸수있다 -->
+                    <!-- slot에 이름 안주면 바로바로 쓸수있다 그러므로 이름을 정해주자-->
                     <template v-slot:filterName>{{ filter }}</template>
                 </filter-box>
             </div>
@@ -28,11 +26,9 @@
 
         <!-- 글작성페이지 -->
         <div v-if="step == 2">
-            <div
-                class="upload-image"
-                :style="`background-image: url(${uploadImage})`"
-                :class="imageFilter"
-            ></div>
+            <div class="upload-image" :class="imageFilter">
+                <img :src="uploadImage" alt="" />
+            </div>
             <div class="write">
                 <textarea
                     @input="$emit('write', $event.target.value)"
@@ -99,11 +95,17 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .upload-image {
+    position: relative;
     width: 100%;
     height: 450px;
-    background-size: cover;
+    img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+    }
 }
 .filters {
     overflow-x: scroll;
