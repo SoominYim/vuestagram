@@ -23,9 +23,10 @@
         @write="uploadContent = $event"
         :imageFilter="imageFilter"
     />
+    <!-- 무한스크롤 변경 예정 -->
     <button @click="more" v-if="step == 0">더보기</button>
 
-    <div class="footer">
+    <div class="footer" v-if="step == 0">
         <ul class="footer-button-plus">
             <input
                 @change="upload"
@@ -119,6 +120,6 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 @import "style.css";
 </style>

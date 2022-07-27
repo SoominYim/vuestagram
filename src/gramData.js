@@ -7,7 +7,7 @@ export default [
     date: "May 15",
     liked: false,
     content: "오늘 무엇을 했냐면요 아무것도 안했어요 ?",
-    filter: "perpetua",
+    filter: "aden",
   },
   {
     name: "John Doe",
@@ -17,7 +17,7 @@ export default [
     date: "Apr 20",
     liked: false,
     content: "흔한 자랑스타그램",
-    filter: "clarendon",
+    filter: "aden",
   },
   {
     name: "Minny",
@@ -27,6 +27,6 @@ export default [
     date: "Apr 4",
     liked: false,
     content: "우리집 개는 화장실 물도 내림",
-    filter: "lofi",
+    filter: "aden",
   },
 ];
