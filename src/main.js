@@ -1,12 +1,28 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import mitt from "mitt";
+import {
+    createApp
+} from 'vue'
+import App from './App.vue'
+import router from './router'
+import vuetify from './plugins/vuetify'
+import {
+    loadFonts
+} from './plugins/webfontloader'
+import store from '@/store/store'
+import axios from 'axios'
+import VueCookies from 'vue3-cookies'
 
-let emitter = mitt();
-let app = createApp(App);
-app.config.globalProperties.emitter = emitter;
 
-import store from "./store";
-import './registerServiceWorker'
+loadFonts()
 
-app.use(store).mount("#app"); // 모든 컴포넌트가 store안에있는 데이터를 공유할거다
+const app = createApp(App)
+
+app.config.globalProperties.$axios = axios;
+app.config.productionTip = false;
+
+app.use(router)
+    .use(vuetify)
+    .use(store)
+    .use(VueCookies, {
+        path:'/'
+    })
+    .mount('#app') 

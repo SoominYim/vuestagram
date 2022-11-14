@@ -39,6 +39,7 @@
         <div v-if="step == 3">
             <my-page></my-page>
         </div>
+        <!-- <gram-observer :gramData="gramData"></gram-observer> -->
     </div>
 </template>
 
@@ -47,9 +48,12 @@ import GramPost from "@/components/GramPost.vue";
 import FilterBox from "@/components/FilterBox";
 import MyPage from "@/components/MyPage";
 
+// import GramObserver from "./GramObserver.vue";
+
 export default {
     name: "GramContainer",
     components: {
+        // GramObserver,
         GramPost,
         FilterBox,
         MyPage,
@@ -62,36 +66,12 @@ export default {
     },
     data() {
         return {
-            filters: [
-                "aden",
-                "_1977",
-                "brannan",
-                "brooklyn",
-                "clarendon",
-                "earlybird",
-                "gingham",
-                "hudson",
-                "inkwell",
-                "kelvin",
-                "lark",
-                "lofi",
-                "maven",
-                "mayfair",
-                "moon",
-                "nashville",
-                "perpetua",
-                "reyes",
-                "rise",
-                "slumber",
-                "stinson",
-                "toaster",
-                "valencia",
-                "walden",
-                "willow",
-                "xpro2",
-            ],
+            filters: this.$store.state.filters,
+            page: 1,
+            list: [],
         };
     },
+    methods: {},
 };
 </script>
 

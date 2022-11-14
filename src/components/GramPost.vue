@@ -66,10 +66,11 @@ export default {
     padding-left: 15px;
     padding-right: 15px;
     font-size: 14px;
+    margin-top: 10px;
 }
 .date {
     font-size: 11px;
     color: grey;
-    margin-top: -8px;
+    margin-top: 10px;
 }
 </style>
