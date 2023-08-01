@@ -12,9 +12,9 @@
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "mitt": "^3.0.0",
-    "node-sass": "^7.0.1",
     "register-service-worker": "^1.7.2",
     "roboto-fontface": "*",
+    "sass": "^1.64.2",
     "sass-loader": "^13.0.2",
     "v3-infinite-loading": "^1.2.1",
     "vue": "^3.2.13",
@@ -55,5 +55,12 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "description": "",
+  "main": "babel.config.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "author": "SoominYim <soo15soo@kakao.com>",
+  "license": "ISC"
 }
