@@ -10,8 +10,8 @@ module.exports = defineConfig({
 });
 module.exports = {
     // publicPath: "/vuestagram",
-    outputDir: "./docs",
-    // outputDir: "../vuestagram_back/public",
+    // outputDir: "./docs",
+    outputDir: "../vuestagram_back/public",
     devServer: {
         https: false,
         proxy: {
