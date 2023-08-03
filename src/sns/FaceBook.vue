@@ -1,20 +1,10 @@
 <template>
     <div>
-        <button
-            v-if="checkThisLocation()"
-            scope="public_profile,email"
-            @click="checkLoginState()"
-            class="face_btn1"
-        >
+        <button v-if="checkThisLocation()" scope="public_profile,email" @click="checkLoginState()" class="face_btn1">
             <div class="face_icon"></div>
             FaceBook으로 로그인
         </button>
-        <button
-            v-else
-            scope="public_profile,email"
-            @click="checkLoginState()"
-            class="face_btn2"
-        >
+        <button v-else scope="public_profile,email" @click="checkLoginState()" class="face_btn2">
             <div class="face_icon"></div>
             Facebook으로 로그인
         </button>
@@ -26,6 +16,7 @@
 
 <script>
 export default {
+    // 페이스북 SDK 초기화는 created 훅에서 수행
     created() {
         window.fbAsyncInit = function () {
             window.FB.init({
@@ -49,12 +40,13 @@ export default {
             fjs.parentNode.insertBefore(js, fjs);
         })(document, "script", "facebook-jssdk");
     },
-    mounted() {},
     methods: {
+        // 페이스북 로그인 상태 체크 및 정보 가져오기
         checkLoginState() {
             window.FB.login(
                 (response) => {
                     if (response.status === "connected") {
+                        // 페이스북 로그인 성공 시 사용자 정보를 가져옴
                         window.FB.api(
                             "/me",
                             "get",
@@ -80,6 +72,7 @@ export default {
                 }
             );
         },
+        // 현재 페이지가 'signup'인지 확인하는 메서드
         checkThisLocation() {
             if (
                 window.location.href.substring(
@@ -91,6 +84,7 @@ export default {
                 return false;
             }
         },
+        // 페이스북 로그아웃
         // facebookLogout() {
         //     window.FB.getLoginStatus((response) => {
         //         window.FB.logout((res) => {
@@ -116,10 +110,12 @@ export default {
     cursor: pointer;
     font-weight: 600;
     font-size: 16px;
+
     &:hover {
         color: #fff;
         opacity: 0.8;
     }
+
     .face_icon {
         display: inline-block;
         background: url("@/assets/icons.png") -414px -300px no-repeat;
@@ -130,6 +126,7 @@ export default {
         top: 2px;
     }
 }
+
 .face_btn2 {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif !important;
@@ -140,6 +137,7 @@ export default {
     cursor: pointer;
     font-weight: 600;
     font-size: 14px;
+
     .face_icon {
         display: inline-block;
         background: url("@/assets/icons.png") -414px -259px no-repeat;

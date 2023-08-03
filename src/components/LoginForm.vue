@@ -1,25 +1,18 @@
 <template>
     <div>
         <form class="login-form">
+            <!-- 휴대폰 번호 또는 이메일 주소 입력 필드 -->
             <div class="field">
-                <input
-                    id="user_id"
-                    type="name"
-                    placeholder="Phone number, or email"
-                    v-model="user.user_id"
-                    @keyup="getPhoneMask(user.user_id)"
-                />
+                <input id="user_id" type="name" placeholder="Phone number, or email" v-model="user.user_id"
+                    @keyup="getPhoneMask(user.user_id)" />
                 <label for="username">휴대폰 번호 또는 이메일 주소</label>
             </div>
+            <!-- 비밀번호 입력 필드 -->
             <div class="field">
-                <input
-                    id="user_password"
-                    type="password"
-                    placeholder="password"
-                    v-model="user.user_password"
-                />
+                <input id="user_password" type="password" placeholder="password" v-model="user.user_password" />
                 <label for="password">비밀번호</label>
             </div>
+            <!-- 로그인 버튼 -->
             <button class="login-button" title="login" @click="login()">
                 로그인
             </button>
@@ -42,41 +35,55 @@ export default {
         };
     },
     methods: {
+        // 로그인 요청 함수
         login() {
+            // 로그인 API에 사용자 정보(user)를 POST로 전달
             this.$axios
                 .post("api/users/login", {
                     user: this.user,
                 })
                 .then((res) => {
+                    // 로그인 성공 시
                     if (res.data.success == true) {
+                        // 로그인 성공 알림 메시지 출력
                         alert(res.data.message);
+                        // 메인 페이지로 이동
                         this.$router.push("/main");
+                        // 서버에서 받아온 액세스 토큰 저장
                         this.accessToken = res.data.token;
                         console.log(this.accessToken);
+                        // 액세스 토큰을 쿠키에 저장 (1일 유효 기간 설정)
                         this.$cookies.set("accesstoken", res.data.token, 1);
 
+                        // 모든 요청 헤더에 액세스 토큰 추가
                         axios.defaults.headers.common["x-access-token"] =
                             res.data.token;
                     }
+                    // 로그인 실패 시
                     if (res.data.success == false) {
+                        // 로그인 실패 알림 메시지 출력
                         alert(res.data.message);
                     }
                 })
                 .catch((error) => {
+                    // 에러 발생 시 알림 메시지 출력
                     alert(error);
                 });
         },
+        // 휴대폰 번호 입력 시 하이픈 추가
         getPhoneMask(val) {
             console.log(val);
             if (val[0] == 0) {
+                // 입력된 값에 하이픈 추가하여 서버에 전송하는 값 변경
                 let res = this.getMask(val.replace("-", ""));
                 this.user.user_id = res;
-                //서버 전송 값에는 '-' 를 제외하고 숫자만 저장
+                // 서버 전송 값에는 '-'를 제외하고 숫자만 저장
             }
         },
-        // 전화번호일 경우 하이픈 추가
+        // 휴대폰 번호 형식으로 변환하는 함수
         getMask(phoneNumber) {
             if (!phoneNumber) return phoneNumber;
+            // 숫자 외의 문자 제거
             phoneNumber = phoneNumber.replace(/[^0-9]/g, "");
 
             let res = "";
@@ -85,7 +92,7 @@ export default {
             } else {
                 if (phoneNumber.substr(0, 2) == "02") {
                     if (phoneNumber.length <= 5) {
-                        //02-123-5678
+                        // 서울 지역 번호 형식: 02-123-5678
                         res =
                             phoneNumber.substr(0, 2) +
                             "-" +
@@ -94,7 +101,6 @@ export default {
                         phoneNumber.length > 5 &&
                         phoneNumber.length <= 9
                     ) {
-                        //02-123-5678
                         res =
                             phoneNumber.substr(0, 2) +
                             "-" +
@@ -102,7 +108,7 @@ export default {
                             "-" +
                             phoneNumber.substr(5);
                     } else if (phoneNumber.length > 9) {
-                        //02-1234-5678
+                        // 서울 지역 번호 형식: 02-1234-5678
                         res =
                             phoneNumber.substr(0, 2) +
                             "-" +
@@ -133,7 +139,7 @@ export default {
                             "-" +
                             phoneNumber.substr(6);
                     } else if (phoneNumber.length > 10) {
-                        //010-1234-5678
+                        // 지역 번호 외 서비스 번호 형식: 010-1234-5678
                         res =
                             phoneNumber.substr(0, 3) +
                             "-" +
@@ -169,8 +175,7 @@ input {
     border: 1px solid #efefef;
 }
 
-/* label intial position*/
-
+/* label 초기 위치 */
 label {
     position: absolute;
     pointer-events: none;
@@ -184,28 +189,28 @@ label {
     padding-top: 6px;
 }
 
-/* hiding placeholder in all browsers */
-
+/* 입력 값이 없을 때 placeholder 감추기 */
 input::placeholder {
     visibility: hidden;
 }
 
-/* hiding  placeholder in mozilla */
+/* Mozilla에서 placeholder 감추기 */
 .login-form ::-moz-placeholder {
     color: transparent;
 }
 
-/* label final position */
-input:not(:placeholder-shown) + label {
+/* label 최종 위치 */
+input:not(:placeholder-shown)+label {
     transform: translateY(0);
     font-size: 11px;
 }
 
-/* input padding increases if placeholder is not shown */
+/* 입력 값이 있을 때 input padding 변경 */
 input:not(:placeholder-shown) {
     padding-top: 14px;
     padding-bottom: 2px;
 }
+
 .login-button {
     text-align: center;
     margin: 8px 40px;

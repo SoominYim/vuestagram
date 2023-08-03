@@ -1,14 +1,16 @@
 <template>
     <div class="container">
-        <v-slot name="filterName"
-            ><span class="filter_title">{{ filter }}</span></v-slot
-        >
+        <!-- 부모 컴포넌트에서 'filterName' 슬롯을 이용하여 'filter' 값을 표시 -->
+        <v-slot name="filterName"><span class="filter_title">{{ filter }}</span></v-slot>
+        <!-- 'filter-item' 클래스를 가진 영역을 클릭하면 'send' 메서드를 실행 -->
         <div class="filter-item" @click="send">
+            <!-- 'uploadImage' 속성에 따라 이미지를 표시 -->
             <img :src="uploadImage" alt="" />
-            <!-- 슬롯에 name을 안주면 부모에서 맘대로 써도된다 -->
+            <!-- 슬롯에 'name' 속성을 지정하지 않으면, 부모 컴포넌트에서 임의로 내용을 삽입 -->
         </div>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -32,17 +34,20 @@ export default {
     display: inline-block;
     height: 120px;
 }
+
 .filter_title {
     position: absolute;
     top: -21px;
     font-weight: bold;
 }
+
 .filter-item {
     box-sizing: border-box;
     width: 120px;
     height: 120px;
 
     color: white;
+
     img {
         width: 120px;
         height: 120px;
