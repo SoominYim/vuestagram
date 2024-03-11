@@ -5,7 +5,6 @@
         v-model="user.user_id"
         name="emailOrPhone"
         id="user_id"
-        :rules="user_id_rule"
         placeholder="Phone number, or email"
         @keyup="getPhoneMask(user.user_id)"
       /><label for="user_id">휴대폰 번호 또는 이메일 주소 </label>
@@ -24,12 +23,9 @@
       </div>
     </div>
     <div class="field">
-      <input
-        v-model="user.user_nickname"
-        aria-required="true"
-        :rules="user_nickname_rule"
-        placeholder="NickName"
-      /><label for="user_nickname">사용자 이름</label>
+      <input v-model="user.user_nickname" aria-required="true" placeholder="NickName" /><label for="user_nickname"
+        >사용자 이름</label
+      >
       <div class="inputState">
         <div class="no_check" v-show="user_nickname_check == 1"></div>
         <div class="yes_check" v-show="user_nickname_check == 2"></div>
@@ -37,10 +33,10 @@
     </div>
     <div class="field">
       <input
+        autocomplete="current-password"
         v-model="user.user_password"
         type="password"
         id="user_password"
-        :rules="user_password_rule"
         placeholder="PassWord"
       /><label for="user_password">비밀번호</label>
       <div class="inputState">
@@ -51,7 +47,7 @@
     <div>저희 서비스를 이용하는 사람이 회원님의 연락처 정보를 Instagram에 업로드했을 수도 있습니다. 더 알아보기</div>
     <button
       @click="signUp"
-      :disabled="user_id_check != 0 || user_password_check != 0 || user_name_check != 0 || user_nickname_check != 0"
+      :disabled="user_id_check != 2 || user_password_check != 2 || user_name_check != 2 || user_nickname_check != 2"
     >
       가입
     </button>
@@ -85,7 +81,7 @@ export default {
         (v) => !/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(v) || "사용자 이름에는 한글을 사용할 수 없습니다.",
       ],
       user_password_rule: [
-        (v) => (this.state === "ins" ? !!v || "패스워드는 필수 입력사항입니다." : true),
+        (v) => !!v || "패스워드는 필수 입력사항입니다.",
         (v) => !(v && v.length >= 30) || "패스워드는 30자 이상 입력할 수 없습니다.",
       ],
       user_id_check: 0,
@@ -94,19 +90,8 @@ export default {
       user_password_check: 0,
     };
   },
-  computed: {
-    // user_id_rule() {
-    //   return (
-    //     !!this.user.user_id ||
-    //     !(this.user.user_id && this.user.user_id.length >= 30) ||
-    //     !/[~!@#$%^&*()_+|<>?:{}]/.test(this.user.user_id) ||
-    //     /^\d{3}-\d{3,4}-\d{4}|^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/.test(
-    //       this.user.user_id
-    //     ) ||
-    //     this.user_id_check == 1
-    //   );
-    // },
-  },
+  computed: {},
+
   methods: {
     signUp() {
       this.$axios
@@ -174,6 +159,20 @@ export default {
       }
       return res;
     },
+    checkId() {
+      const validateId = /^\d{3}-\d{3,4}-\d{4}|^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
+
+      if (!validateId.test(this.user.user_id) || !this.user.user_id) {
+        this.user_id_check = 1;
+        return;
+      }
+      this.user_id_check = 2;
+    },
+  },
+  watch: {
+    "user.user_id": function () {
+      this.checkId();
+    },
   },
 };
 </script>
@@ -196,6 +195,7 @@ button {
   height: 35px;
 }
 button:disabled {
+  cursor: auto;
   background-color: rgba(0, 149, 246, 0.3);
 }
 form {
@@ -248,12 +248,12 @@ label {
   padding-right: 8px;
   display: flex;
   .no_check {
-    background: url("../assets/icons.png");
+    background: url("../assets/icons.png") -249px -333px no-repeat;
     width: 22px;
     height: 22px;
   }
   .yes_check {
-    background: url("../assets/icons.png");
+    background: url("../assets/icons.png") -225px -333px no-repeat;
     width: 22px;
     height: 22px;
   }
