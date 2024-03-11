@@ -121,6 +121,7 @@ export default {
             alert("현재 서버는 사용이 불가합니다. /main으로 접속하시면 사용 가능합니다.");
             console.log(error);
           });
+        console.log(this.user);
       } else {
         alert("안돼");
         console.log(this.user_id_check, this.user_password_check, this.user_name_check, this.user_nickname_check);

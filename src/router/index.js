@@ -30,4 +30,17 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  // 페이지 이동 시 입력 폼 초기화
+  clearInputForm();
+  next();
+});
+
+function clearInputForm() {
+  const inputElements = document.querySelectorAll("input");
+  inputElements.forEach((input) => {
+    input.value = "";
+  });
+}
+
 export default router;
