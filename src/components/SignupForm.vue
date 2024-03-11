@@ -14,16 +14,14 @@
       </div>
     </div>
     <div class="field">
-      <input v-model="user.user_name" id="nickname" :rules="user_name_rule" placeholder="Name" /><label for="user_name"
-        >성명</label
-      >
+      <input v-model="user.user_name" id="name" placeholder="Name" /><label for="user_name">성명</label>
       <div class="inputState">
         <div class="no_check" v-show="user_name_check == 1"></div>
         <div class="yes_check" v-show="user_name_check == 2"></div>
       </div>
     </div>
     <div class="field">
-      <input v-model="user.user_nickname" aria-required="true" placeholder="NickName" /><label for="user_nickname"
+      <input v-model="user.user_nickname" id="nickname" placeholder="NickName" /><label for="user_nickname"
         >사용자 이름</label
       >
       <div class="inputState">
@@ -46,7 +44,7 @@
     </div>
     <div>저희 서비스를 이용하는 사람이 회원님의 연락처 정보를 Instagram에 업로드했을 수도 있습니다. 더 알아보기</div>
     <button
-      @click="signUp"
+      @click.prevent="signUp"
       :disabled="user_id_check != 2 || user_password_check != 2 || user_name_check != 2 || user_nickname_check != 2"
     >
       가입
@@ -77,7 +75,8 @@ export default {
       user_nickname_rule: [
         (v) => !!v || "사용자 이름은 필수 입력사항입니다.",
         (v) => !(v && v.length >= 30) || "사용자 이름은 30자 이상 입력할 수 없습니다.",
-        (v) => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || "사용자 이름에는 특수문자를 사용할 수 없습니다.",
+        (v) =>
+          !/[~!@#$%^&*()_+|<>?:{}]|[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(v) || "사용자 이름에는 특수문자를 사용할 수 없습니다.",
         (v) => !/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(v) || "사용자 이름에는 한글을 사용할 수 없습니다.",
       ],
       user_password_rule: [
@@ -93,25 +92,39 @@ export default {
   computed: {},
 
   methods: {
+    clearInput() {
+      // 입력 폼 내용을 초기화합니다.
+      this.inputValue = "";
+    },
     signUp() {
-      this.$axios
-        .post("api/users/signUp", {
-          user: this.user,
-        })
-        .then((result) => {
-          if (result.data.success == true) {
-            alert(result.data.message);
-            this.$router.push("/login");
-          }
-          if (result.data.success == false) {
-            alert(result.data.message);
-          }
-        })
-        .catch((error) => {
-          //   alert(error);
-          alert("현재 서버는 사용이 불가합니다. /main으로 접속하시면 사용 가능합니다.");
-          console.log(error);
-        });
+      if (
+        this.user_id_check === 2 &&
+        this.user_password_check === 2 &&
+        this.user_name_check === 2 &&
+        this.user_nickname_check === 2
+      ) {
+        this.$axios
+          .post("api/users/signUp", {
+            user: this.user,
+          })
+          .then((result) => {
+            if (result.data.success == true) {
+              alert(result.data.message);
+              // 회원가입이 성공하면 로그인 페이지로 리다이렉트
+              this.$router.push("/login");
+            } else {
+              alert(result.data.message);
+            }
+          })
+          .catch((error) => {
+            //   alert(error);
+            alert("현재 서버는 사용이 불가합니다. /main으로 접속하시면 사용 가능합니다.");
+            console.log(error);
+          });
+      } else {
+        alert("안돼");
+        console.log(this.user_id_check, this.user_password_check, this.user_name_check, this.user_nickname_check);
+      }
     },
     // 전화번호일 경우 하이픈 추가
     getPhoneMask(val) {
@@ -162,16 +175,52 @@ export default {
     checkId() {
       const validateId = /^\d{3}-\d{3,4}-\d{4}|^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
 
-      if (!validateId.test(this.user.user_id) || !this.user.user_id) {
+      if (!validateId.test(this.user.user_id) || this.user.user_id <= 1 || this.user.user_id.length >= 30) {
         this.user_id_check = 1;
         return;
       }
       this.user_id_check = 2;
     },
+    checkName() {
+      const validateName = /^[a-zA-Z0-9_\-.]{2,20}$/;
+
+      if (!validateName.test(this.user.user_name)) {
+        this.user_name_check = 1;
+        return;
+      }
+      this.user_name_check = 2;
+    },
+    checkNickName() {
+      const validateNickName = /^[a-zA-Z0-9_\-.]{6,15}$/;
+
+      if (!validateNickName.test(this.user.user_nickname)) {
+        this.user_nickname_check = 1;
+        return;
+      }
+      this.user_nickname_check = 2;
+    },
+    checkPassword() {
+      const validatePassword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+
+      if (!validatePassword.test(this.user.user_password)) {
+        this.user_password_check = 1;
+        return;
+      }
+      this.user_password_check = 2;
+    },
   },
   watch: {
     "user.user_id": function () {
       this.checkId();
+    },
+    "user.user_name": function () {
+      this.checkName();
+    },
+    "user.user_nickname": function () {
+      this.checkNickName();
+    },
+    "user.user_password": function () {
+      this.checkPassword();
     },
   },
 };
@@ -195,7 +244,7 @@ button {
   height: 35px;
 }
 button:disabled {
-  cursor: auto;
+  pointer-events: none;
   background-color: rgba(0, 149, 246, 0.3);
 }
 form {
@@ -260,6 +309,9 @@ label {
 }
 /* hiding placeholder in all browsers */
 
+input:focus {
+  border: 1px solid #999;
+}
 input::placeholder {
   visibility: hidden;
 }
