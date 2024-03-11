@@ -31,7 +31,7 @@ export default {
 @import "@/assets/reset.scss";
 
 html {
-  background: rgb(250, 250, 250);
+  background: rgb(250, 250, 250) !important;
 }
 #app {
   width: 100vw;
