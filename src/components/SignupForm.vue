@@ -59,8 +59,8 @@ export default {
       user: {
         user_id: this.$store.state.user.user_id,
         user_name: this.$store.state.user.user_name,
-        user_id: this.$store.state.user.user_nickname,
-        user_id: this.$store.state.user.user_password,
+        user_nickname: this.$store.state.user.user_nickname,
+        user_password: this.$store.state.user.user_password,
       },
       user_id_check: 0,
       user_name_check: 0,
