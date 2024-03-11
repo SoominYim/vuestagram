@@ -1,8 +1,8 @@
 <template>
-    <div id="app">
-        <router-view></router-view>
-        <gram-footer></gram-footer>
-    </div>
+  <div id="app">
+    <router-view></router-view>
+    <gram-footer></gram-footer>
+  </div>
 </template>
 
 <script>
@@ -12,26 +12,30 @@
 import GramFooter from "@/components/GramFooter.vue";
 
 export default {
-    name: "App",
-    components: {
-        // GramSignup,
-        // GramLogin,
-        // GramMain,
-        GramFooter,
-    },
-    data() {
-        return {
-            login: this.$store.state.login,
-        };
-    },
+  name: "App",
+  components: {
+    // GramSignup,
+    // GramLogin,
+    // GramMain,
+    GramFooter,
+  },
+  data() {
+    return {
+      login: this.$store.state.login,
+    };
+  },
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 @import "@/assets/reset.scss";
+
+html {
+  background: rgb(250, 250, 250);
+}
 #app {
-    width: 100vw;
-    height: 100vh;
-    background: rgb(250, 250, 250);
+  width: 100vw;
+  height: 100vh;
+  background: rgb(250, 250, 250);
 }
 </style>
