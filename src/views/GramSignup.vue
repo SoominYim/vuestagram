@@ -16,7 +16,7 @@
     <div class="wrap sub_login">
       <p>
         계정이 있으신가요?
-        <router-link to="/">로그인</router-link>
+        <router-link to="/login">로그인</router-link>
       </p>
     </div>
     <p class="down">앱을 다운로드하세요.</p>

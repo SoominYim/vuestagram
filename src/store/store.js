@@ -1,6 +1,4 @@
-import {
-  createStore
-} from "vuex";
+import { createStore } from "vuex";
 import axios from "axios";
 
 const store = createStore({
@@ -11,7 +9,7 @@ const store = createStore({
       likes: 30,
       getLikes: false,
       more: {},
-      title: 'vuestagram',
+      title: "vuestagram",
       login: false,
       filters: [
         "aden",
@@ -50,11 +48,11 @@ const store = createStore({
       counter: 0,
       bottom: false,
       user: {
-        user_id: '',
-        user_password: '',
-        user_name: '',
-        user_nickname: '',
-      }
+        user_id: "",
+        user_password: "",
+        user_name: "",
+        user_nickname: "",
+      },
     };
   },
   mutations: {

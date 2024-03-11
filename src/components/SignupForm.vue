@@ -1,5 +1,5 @@
 <template>
-  <form class="signup-form" ref="form" action="">
+  <form class="signup-form">
     <div class="field">
       <input
         v-model="user.user_id"
@@ -56,7 +56,12 @@
 export default {
   data() {
     return {
-      user: this.$store.state.user,
+      user: {
+        user_id: this.$store.state.user.user_id,
+        user_name: this.$store.state.user.user_name,
+        user_id: this.$store.state.user.user_nickname,
+        user_id: this.$store.state.user.user_password,
+      },
       user_id_check: 0,
       user_name_check: 0,
       user_nickname_check: 0,

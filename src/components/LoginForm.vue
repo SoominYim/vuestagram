@@ -1,7 +1,6 @@
 <template>
   <div>
     <form class="login-form">
-      <!-- 휴대폰 번호 또는 이메일 주소 입력 필드 -->
       <div class="field">
         <input
           id="user_id"
@@ -12,29 +11,27 @@
         />
         <label for="username">휴대폰 번호 또는 이메일 주소</label>
       </div>
-      <!-- 비밀번호 입력 필드 -->
       <div class="field">
         <input id="user_password" type="password" placeholder="password" v-model="user.user_password" />
         <label for="password">비밀번호</label>
       </div>
-      <!-- 로그인 버튼 -->
-      <button class="login-button" title="login" @click="login()">로그인</button>
+      <button class="login-button" title="login" @click.prevent="login">로그인</button>
     </form>
   </div>
 </template>
 
 <script>
-import atuh_store from "@/store/atuh";
+import auth_store from "@/store/auth";
 import axios from "axios";
 
 export default {
   data() {
     return {
       user: {
-        user_id: this.$store.state.user.user_id,
-        user_password: this.$store.state.user.user_password,
+        user_id: auth_store.state.user.user_id,
+        user_password: auth_store.state.user.user_password,
       },
-      aceessToken: atuh_store.state.aceessToken,
+      accessToken: auth_store.state.accessToken,
     };
   },
   methods: {
@@ -56,7 +53,7 @@ export default {
             this.accessToken = res.data.token;
             console.log(this.accessToken);
             // 액세스 토큰을 쿠키에 저장 (1일 유효 기간 설정)
-            this.$cookies.set("accesstoken", res.data.token, 1);
+            this.$cookies.set("accessToken", res.data.token, 1);
 
             // 모든 요청 헤더에 액세스 토큰 추가
             axios.defaults.headers.common["x-access-token"] = res.data.token;
@@ -198,3 +195,4 @@ input:not(:placeholder-shown) {
   border-radius: 4px;
 }
 </style>
+@/store/auth
