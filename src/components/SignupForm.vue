@@ -57,32 +57,6 @@ export default {
   data() {
     return {
       user: this.$store.state.user,
-      user_id_rule: [
-        (v) => !!v || "아이디는 필수 입력사항입니다.",
-        (v) => !(v && v.length >= 30) || "아이디는 30자 이상 입력할 수 없습니다.",
-        (v) => {
-          //   const replaceV = v.replace(/(\s*)/g, "");
-          const pattern =
-            /^\d{3}-\d{3,4}-\d{4}|^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
-          return pattern.test(v) || "메일 또는 휴대폰 번호를 입력하세요";
-        },
-      ],
-      user_name_rule: [
-        (v) => !!v || "성명은 필수 입력사항입니다.",
-        (v) => !(v && v.length >= 30) || "성명은 30자 이상 입력할 수 없습니다.",
-        (v) => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || "성명에는 특수문자를 사용할 수 없습니다.",
-      ],
-      user_nickname_rule: [
-        (v) => !!v || "사용자 이름은 필수 입력사항입니다.",
-        (v) => !(v && v.length >= 30) || "사용자 이름은 30자 이상 입력할 수 없습니다.",
-        (v) =>
-          !/[~!@#$%^&*()_+|<>?:{}]|[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(v) || "사용자 이름에는 특수문자를 사용할 수 없습니다.",
-        (v) => !/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(v) || "사용자 이름에는 한글을 사용할 수 없습니다.",
-      ],
-      user_password_rule: [
-        (v) => !!v || "패스워드는 필수 입력사항입니다.",
-        (v) => !(v && v.length >= 30) || "패스워드는 30자 이상 입력할 수 없습니다.",
-      ],
       user_id_check: 0,
       user_name_check: 0,
       user_nickname_check: 0,
@@ -92,10 +66,6 @@ export default {
   computed: {},
 
   methods: {
-    clearInput() {
-      // 입력 폼 내용을 초기화합니다.
-      this.inputValue = "";
-    },
     signUp() {
       if (
         this.user_id_check === 2 &&
