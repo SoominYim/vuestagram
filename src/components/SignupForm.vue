@@ -218,6 +218,9 @@ button {
   text-transform: inherit;
   width: 266px;
   height: 35px;
+  &:hover {
+    background-color: rgb(24, 119, 242);
+  }
 }
 button:disabled {
   pointer-events: none;
