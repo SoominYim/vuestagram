@@ -1,5 +1,5 @@
 // const path = require("path");
-// const resolve = 
+// const resolve =
 
 // const Facebook = {
 //     init() {
@@ -37,7 +37,7 @@
 //                         (r) => {
 //                             const req_body = {
 //                                 id: r.id,
-//                                 name: r.name, 
+//                                 name: r.name,
 //                                 email: r.email,
 //                                 picture: r.picture.data.url,
 //                                 social: "Facebook",
